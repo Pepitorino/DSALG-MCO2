@@ -37,24 +37,22 @@ public class Network {
     {
         int idNum = 0;
         int numFriends = 0;
-        int validChoice = 0;
+        boolean flag = false;
         Scanner scanner = new Scanner(System.in);
 
-        while (validChoice == 0)
-        {
-            System.out.printf("Enter the desired ID Number: ");
-            idNum = scanner.nextInt();
+        System.out.printf("Enter ID of person: ");
 
-            if (this.graph[idNum] == null)
-            {
-                System.out.printf("ID Number does not exist. Please try again.");
+        do {
+            try {
+                idNum = scanner.nextInt();
+                flag=false;
             }
-
-            else
-            {
-                validChoice = 1;
+            catch (InputMismatchException e) {
+                System.out.printf("\nINVALID\n");
+                scanner.nextLine();
+                flag=true;
             }
-        }
+        } while(flag);
 
         for (int i = 0; i < this.graph[idNum].length; i++)
         {
@@ -65,18 +63,58 @@ public class Network {
             }
         }
 
-        System.out.printf("\n\nTotal Number of Friends: " + numFriends);
-
-        scanner.close();
+        System.out.printf("\nPerson %d has %d friends", idNum, numFriends);
     }
 
-    public ArrayList<Integer> findPath(int source, int dest) {
+    public ArrayList<Integer> findPath() {
+        Scanner input = new Scanner(System.in);
+        int source=0, dest=0;
         boolean[] visited = new boolean[this.noAccs];
         ArrayList<Integer> queue = new ArrayList<Integer>();
         visited[source] = true;
+        boolean flag = false;
 
-        this.dfs(source, dest, visited, queue);
-        return queue;
+        do {
+            try {
+                System.out.printf("Enter ID of first person: ");
+                source = input.nextInt();
+                flag = false;
+            } catch (InputMismatchException e) {
+                System.out.printf("\nINVALID\n");
+                flag = true;
+            }
+            if (source<0||source>this.noAccs) {
+                System.out.printf("\nINVALID\n");
+                flag = true;
+            }
+        } while(flag);
+
+        do {
+            try {
+                System.out.printf("Enter ID of first person: ");
+                dest = input.nextInt();
+                flag = false;
+            } catch (InputMismatchException e) {
+                System.out.printf("\nINVALID\n");
+                flag = true;
+            }
+            if (source<0||source>this.noAccs) {
+                System.out.printf("\nINVALID\n");
+                flag = true;
+            }
+        } while(flag);
+
+        flag = this.dfs(source, dest, visited, queue);
+        queue.add(0, source);
+        queue.add(dest);
+        if (flag) {
+            System.out.printf("\nThere is a path between %d and %d", source, dest);
+            return queue;
+        }
+        else {
+            System.out.printf("\nThere is no path between %d and %d", source, dest);
+            return null;
+        }
     }
 
     public boolean dfs(int source, int dest, boolean[] visited, ArrayList<Integer> queue) {
