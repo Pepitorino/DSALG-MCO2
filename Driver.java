@@ -44,6 +44,7 @@ public class Driver {
                         System.out.printf("\n%d is friends with %d", path.get(i), path.get(i+1));
                     }
                 }
+                break;
                 case 3: flag = false; break;
                 default: System.out.printf("\nINVALID\n");break;
             }

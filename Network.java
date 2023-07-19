@@ -74,6 +74,7 @@ public class Network {
         visited[source] = true;
         boolean flag = false;
 
+        //input for source
         do {
             try {
                 System.out.printf("Enter ID of first person: ");
@@ -88,7 +89,7 @@ public class Network {
                 flag = true;
             }
         } while(flag);
-
+        //input for dest
         do {
             try {
                 System.out.printf("Enter ID of first person: ");
