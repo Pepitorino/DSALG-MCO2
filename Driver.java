@@ -40,8 +40,8 @@ public class Driver {
                 case 2: ArrayList<Integer> path = netwk.findPath(); 
                 if (path!=null)
                 {
-                    for (int i = 0; i<path.size()-1; i++) {
-                        System.out.printf("\n%d is friends with %d", path.get(i), path.get(i+1));
+                    for (int i = path.size()-1; i>0; i--) {
+                        System.out.printf("\n%d is friends with %d", path.get(i), path.get(i-1));
                     }
                 }
                 break;

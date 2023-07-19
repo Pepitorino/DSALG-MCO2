@@ -19,9 +19,8 @@ public class Network {
             noAccs = scanner.nextInt(), 
             noFriendships = scanner.nextInt();
 
-        this.noAccs=noFriendships;
-        this.noFriendships=noAccs;
-        
+        this.noAccs=noAccs;
+        this.noFriendships=noFriendships;  
         this.graph = new boolean[noAccs][noAccs];
 
         for(int i=0; i < noFriendships; i++) {
@@ -71,7 +70,6 @@ public class Network {
         int source=0, dest=0;
         boolean[] visited = new boolean[this.noAccs];
         ArrayList<Integer> queue = new ArrayList<Integer>();
-        visited[source] = true;
         boolean flag = false;
 
         //input for source
@@ -89,25 +87,29 @@ public class Network {
                 flag = true;
             }
         } while(flag);
+
         //input for dest
         do {
             try {
-                System.out.printf("Enter ID of first person: ");
+                System.out.printf("Enter ID of second person: ");
                 dest = input.nextInt();
                 flag = false;
             } catch (InputMismatchException e) {
                 System.out.printf("\nINVALID\n");
                 flag = true;
             }
-            if (source<0||source>this.noAccs) {
+            if (dest<0||dest>this.noAccs) {
                 System.out.printf("\nINVALID\n");
                 flag = true;
             }
         } while(flag);
 
+        visited[source] = true;
+        visited[dest] = false;
         flag = this.dfs(source, dest, visited, queue);
-        queue.add(0, source);
-        queue.add(dest);
+        queue.add(source);
+        queue.add(0,dest);
+
         if (flag) {
             System.out.printf("\nThere is a path between %d and %d", source, dest);
             return queue;
@@ -120,13 +122,15 @@ public class Network {
 
     public boolean dfs(int source, int dest, boolean[] visited, ArrayList<Integer> queue) {
         if (this.graph[source][dest]==true) {
+            System.out.printf("\n%d %d", source, dest);
             return true;
         }
 
         for(int i = 0; i<this.noAccs; i++) {
             if (this.graph[source][i]==true&&visited[i]==false) {
                 visited[i]=true;
-                if (dfs(i,dest,visited,queue)==true) {
+                if (this.dfs(i,dest,visited,queue)==true) {
+                    System.out.printf("\n%d %d", source, i);
                     queue.add(i);
                     return true;
                 }
